@@ -190,11 +190,6 @@ void ProcessLogic::enterHouseCriticalSection()
         current_state = ProcessState::IDLE;
         resource_manager.processDeferredQueues(ResourceType::HOUSE_RESOURCE);
     }
-
-    if (!acquired_house)
-    {
-        resource_manager.processDeferredQueues(ResourceType::HOUSE_RESOURCE);
-    }
 }
 
 void ProcessLogic::enterPaserCriticalSection()
@@ -218,10 +213,6 @@ void ProcessLogic::enterPaserCriticalSection()
     {
         log("Could not acquire a paser (P=" + std::to_string(P_PASERS_CONST) + "). Releasing house and returning to IDLE.");
         current_state = ProcessState::RELEASING;
-        resource_manager.processDeferredQueues(ResourceType::PASER_RESOURCE);
-    }
-    if (!acquired_paser)
-    {
         resource_manager.processDeferredQueues(ResourceType::PASER_RESOURCE);
     }
 }
