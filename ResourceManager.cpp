@@ -38,24 +38,6 @@ void ResourceManager::requestHouse()
     message_handler.broadcastMessage(MessageType::REQUEST_HOUSE, house_request_timestamp);
 }
 
-void ResourceManager::releaseHouse(int house_id_to_release)
-{
-    log("Initiating ReleaseHouse for house_id: " + std::to_string(house_id_to_release));
-    requesting_house = true;
-    house_request_timestamp = clock_manager.getTime();
-
-    house_replies_needed.clear();
-    for (int i = 1; i <= N_PROCESSES_CONST; ++i)
-    {
-        if (i != my_id)
-        {
-            house_replies_needed.insert(i);
-        }
-    }
-    log("Broadcasting REQUEST_HOUSE (for release) with ts " + std::to_string(house_request_timestamp));
-    message_handler.broadcastMessage(MessageType::REQUEST_HOUSE, house_request_timestamp);
-}
-
 void ResourceManager::handleHouseRequest(const Message &msg)
 {
     log("Handling HOUSE request from " + std::to_string(msg.sender_id) + " (ts:" + std::to_string(msg.timestamp) + ")");
@@ -157,24 +139,6 @@ void ResourceManager::requestPaser()
         }
     }
     log("Broadcasting REQUEST_PASER with ts " + std::to_string(paser_request_timestamp) + ". Expecting " + std::to_string(paser_replies_needed.size()) + " replies.");
-    message_handler.broadcastMessage(MessageType::REQUEST_PASER, paser_request_timestamp);
-}
-
-void ResourceManager::releasePaser()
-{
-    log("Initiating ReleasePaser.");
-    requesting_paser = true;
-    paser_request_timestamp = clock_manager.getTime();
-
-    paser_replies_needed.clear();
-    for (int i = 1; i <= N_PROCESSES_CONST; ++i)
-    {
-        if (i != my_id)
-        {
-            paser_replies_needed.insert(i);
-        }
-    }
-    log("Broadcasting REQUEST_PASER (for release) with ts " + std::to_string(paser_request_timestamp));
     message_handler.broadcastMessage(MessageType::REQUEST_PASER, paser_request_timestamp);
 }
 
