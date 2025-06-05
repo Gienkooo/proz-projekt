@@ -19,7 +19,7 @@ void ProcessLogic::log(const std::string &message_content)
 
 void ProcessLogic::run()
 {
-    log("Process " + std::to_string(my_id) + " starting run loop.");
+    //log("Process " + std::to_string(my_id) + " starting run loop.");
     auto start_time = std::chrono::steady_clock::now();
 
     listener_thread_obj = std::thread([this]()
@@ -93,7 +93,7 @@ void ProcessLogic::run()
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    log("Main run loop in ProcessLogic finished for process " + std::to_string(my_id) + ". Waiting for listener thread...");
+    //log("Main run loop in ProcessLogic finished for process " + std::to_string(my_id) + ". Waiting for listener thread...");
 
     message_handler.stopListening();
     if (listener_thread_obj.joinable())
@@ -150,7 +150,7 @@ void ProcessLogic::simulateWork()
     log("Simulating work with house and paser...");
 
     resource_manager.getMutex().unlock();
-    std::uniform_int_distribution<int> dist(1000, 3000); // milliseconds
+    std::uniform_int_distribution<int> dist(4000, 5000); // milliseconds
     std::this_thread::sleep_for(std::chrono::milliseconds(dist(rng)));
     resource_manager.getMutex().lock(); // TODO rozważyć zmianę na unique_lock, bo to może nie być do końca poprawne
 
